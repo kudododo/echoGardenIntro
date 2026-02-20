@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 const sideInfo = [
   { title: '想定導入', desc: 'イベント/施設/教育現場など' },
@@ -12,7 +12,7 @@ const sideInfo = [
 
 type SubmitStatus = 'idle' | 'success' | 'error'
 
-export default function ContactForm() {
+function ContactFormInner() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,10 +22,9 @@ export default function ContactForm() {
     consent: false,
   })
 
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle')
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -39,15 +38,11 @@ export default function ContactForm() {
     }
   }
 
-  const handleRecaptchaChange = (token: string | null) => {
-    setRecaptchaToken(token)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!recaptchaToken) {
-      alert('reCAPTCHAを確認してください')
+    if (!executeRecaptcha) {
+      alert('reCAPTCHAの読み込み中です。少々お待ちください。')
       return
     }
 
@@ -65,6 +60,9 @@ export default function ContactForm() {
     setSubmitStatus('idle')
 
     try {
+      // reCAPTCHA v3 トークンを取得
+      const recaptchaToken = await executeRecaptcha('contact_form')
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -89,14 +87,12 @@ export default function ContactForm() {
         message: '',
         consent: false,
       })
-      setRecaptchaToken(null)
-      recaptchaRef.current?.reset()
     } catch (error) {
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
     }
-  }
+  }, [executeRecaptcha, formData])
 
   return (
     <section id="contact" className="section-padding">
@@ -223,15 +219,6 @@ export default function ContactForm() {
                 </label>
               </div>
 
-              <div className="flex justify-center py-4">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                  onChange={handleRecaptchaChange}
-                  theme="dark"
-                />
-              </div>
-
               {submitStatus === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -254,13 +241,21 @@ export default function ContactForm() {
 
               <motion.button
                 type="submit"
-                disabled={isSubmitting || !recaptchaToken}
+                disabled={isSubmitting}
                 className="w-full px-8 py-4 bg-accent text-white rounded-full font-medium hover:bg-accent/90 transition-all glow-effect disabled:opacity-50 disabled:cursor-not-allowed"
                 whileHover={{ scale: isSubmitting ? 1 : 1.02, y: isSubmitting ? 0 : -2 }}
                 whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
               >
                 {isSubmitting ? '送信中...' : '送信する'}
               </motion.button>
+
+              <p className="text-xs text-textSecondary text-center">
+                このサイトはreCAPTCHAによって保護されており、Googleの
+                <a href="https://policies.google.com/privacy" className="text-accent hover:underline" target="_blank" rel="noopener noreferrer">プライバシーポリシー</a>
+                と
+                <a href="https://policies.google.com/terms" className="text-accent hover:underline" target="_blank" rel="noopener noreferrer">利用規約</a>
+                が適用されます。
+              </p>
             </form>
           </div>
 
@@ -285,3 +280,12 @@ export default function ContactForm() {
   )
 }
 
+export default function ContactForm() {
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''
+
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
+      <ContactFormInner />
+    </GoogleReCaptchaProvider>
+  )
+}

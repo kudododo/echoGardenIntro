@@ -1,24 +1,31 @@
-declare module 'react-google-recaptcha' {
-  import { Component, RefObject } from 'react'
+declare module 'react-google-recaptcha-v3' {
+  import { ReactNode, FC } from 'react'
 
-  interface ReCAPTCHAProps {
-    sitekey: string
-    onChange?: (token: string | null) => void
-    onExpired?: () => void
-    onErrored?: () => void
-    theme?: 'light' | 'dark'
-    size?: 'compact' | 'normal' | 'invisible'
-    tabindex?: number
-    badge?: 'bottomright' | 'bottomleft' | 'inline'
-    hl?: string
+  interface GoogleReCaptchaProviderProps {
+    reCaptchaKey: string
+    language?: string
+    useRecaptchaNet?: boolean
+    useEnterprise?: boolean
+    scriptProps?: {
+      nonce?: string
+      defer?: boolean
+      async?: boolean
+      appendTo?: 'head' | 'body'
+      id?: string
+    }
+    container?: {
+      element?: string | HTMLElement
+      parameters?: {
+        badge?: 'bottomright' | 'bottomleft' | 'inline'
+        theme?: 'light' | 'dark'
+      }
+    }
+    children: ReactNode
   }
 
-  export default class ReCAPTCHA extends Component<ReCAPTCHAProps> {
-    reset(): void
-    execute(): void
-    executeAsync(): Promise<string>
-    getValue(): string | null
-    getWidgetId(): number
+  export const GoogleReCaptchaProvider: FC<GoogleReCaptchaProviderProps>
+
+  export function useGoogleReCaptcha(): {
+    executeRecaptcha: ((action?: string) => Promise<string>) | undefined
   }
 }
-

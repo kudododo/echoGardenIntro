@@ -33,6 +33,13 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
     })
 
     const data = await response.json()
+    
+    // reCAPTCHA v3: スコアが0.5以上であれば人間と判定
+    if (data.success && data.score !== undefined) {
+      console.log('reCAPTCHA v3 score:', data.score)
+      return data.score >= 0.5
+    }
+    
     return data.success === true
   } catch (error) {
     console.error('reCAPTCHA verification error:', error)
