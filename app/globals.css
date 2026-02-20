@@ -72,3 +72,8 @@
   background: rgba(245, 247, 251, 0.3);
 }
 
+/* reCAPTCHA v3 バッジを非表示 */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
