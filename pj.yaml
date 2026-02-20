@@ -1,0 +1,293 @@
+# antigravity-site.yaml
+# 目的: Echo Garden を中心に、Hit Balloon / Air Builder も含めた「ちゃんとした・かっこいい」紹介サイトを最短で実装するための仕様YAML
+# 想定実装: Next.js(App Router) + Tailwind + Framer Motion / Vercel デプロイ（フォームはVercel or WordPressどちらにも対応）
+
+project:
+  name: "Echo Garden Apps Showcase"
+  locale: "ja-JP"
+  tone:
+    keywords: ["ミニマル", "上質", "余白", "テック", "アート", "子ども", "体験"]
+    voice: "短文で強く。押し売りしない。熱量はあるがクール。"
+  goals:
+    - "プロダクトの価値を30秒で理解できる"
+    - "事例で『導入イメージ』が湧く"
+    - "問い合わせへの導線が迷わない"
+  target_users:
+    - "イベント企画/施設運営（商業施設・自治体・学校・企業イベント）"
+    - "保育園/幼稚園/習い事/学童の運営者"
+    - "展示/アート体験の企画者"
+  primary_cta:
+    label: "相談する"
+    anchor: "#contact"
+
+branding:
+  style: "dark-minimal"
+  layout:
+    max_width: 1120
+    section_padding_y: 96
+    radius: 18
+    grid: "12col"
+  typography:
+    font_family:
+      heading: "Inter, system-ui, -apple-system, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif"
+      body: "Inter, system-ui, -apple-system, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif"
+    scale:
+      h1: 52
+      h2: 34
+      h3: 22
+      body: 16
+  colors:
+    background: "#0B0F14"
+    surface: "#101826"
+    text_primary: "#F5F7FB"
+    text_secondary: "rgba(245,247,251,0.72)"
+    border: "rgba(245,247,251,0.10)"
+    accent: "#7C5CFF"   # 変更可
+    accent2: "#22D3EE"  # 変更可
+  effects:
+    glow: true
+    noise_overlay: true
+    gradient_mesh: true
+
+site:
+  type: "single-page"
+  routing:
+    path: "/"
+    anchors:
+      - id: "mv"
+      - id: "thoughts"
+      - id: "apps"
+      - id: "cases"
+      - id: "contact"
+  seo:
+    title: "Echo Garden | 声と動きが、アートになる"
+    description: "子どもの声や動きに反応する参加型デジタルアート体験。Echo Garden / Hit Balloon / Air Builder の紹介と導入事例。"
+    ogp:
+      image: "/ogp.png"
+      type: "website"
+  header:
+    logo_text: "Echo Garden"
+    nav:
+      - { label: "思い", href: "#thoughts" }
+      - { label: "アプリ", href: "#apps" }
+      - { label: "事例", href: "#cases" }
+      - { label: "問い合わせ", href: "#contact" }
+    right_cta:
+      label: "相談する"
+      href: "#contact"
+  footer:
+    items:
+      - "© {year} Echo Garden"
+      - { label: "Privacy", href: "/privacy" } # 追加ページ化してもOK
+      - { label: "Contact", href: "#contact" }
+
+content:
+  sections:
+    - id: "mv"
+      type: "hero"
+      layout: "split"
+      headline:
+        line1: "声と動きが、"
+        line2: "アートになる。"
+      subcopy: "子どもたちの『わぁ！』が止まらない、参加型デジタルアート体験。"
+      bullets:
+        - "説明不要。直感で遊べる"
+        - "イベント/施設で回遊と滞在をつくる"
+        - "子ども×テック×アートの体験価値"
+      hero_media:
+        kind: "video"
+        src: "/hero.mp4"   # なければ /hero.jpg に自動フォールバック
+        fallback_image: "/hero.jpg"
+      ctas:
+        - { label: "事例を見る", href: "#cases", style: "secondary" }
+        - { label: "相談する", href: "#contact", style: "primary" }
+      micro_note: "※ デモ/導入の相談歓迎（小規模イベントもOK）"
+
+    - id: "thoughts"
+      type: "story"
+      title: "思い"
+      lead: "子どもの『声』や『動き』は、世界を変えるスイッチになる。"
+      paragraphs:
+        - "Echo Garden は、子どもの発するエネルギーをそのままアートに変換する体験です。"
+        - "体験のハードルを限界まで下げ、誰でも『参加者』になれる場をつくります。"
+        - "テクノロジーは主役じゃない。主役は、そこで生まれる反応と感情です。"
+      values:
+        - title: "Instant"
+          desc: "触らなくても、すぐ始まる"
+        - title: "Immersive"
+          desc: "空間ごと体験になる"
+        - title: "Shareable"
+          desc: "思い出が残り、広がる"
+
+    - id: "apps"
+      type: "product_cards"
+      title: "アプリ紹介"
+      subtitle: "目的に合わせて、最適な体験を選べます。"
+      cards:
+        - key: "echo-garden"
+          name: "Echo Garden"
+          catch: "声が、花や光になる。"
+          desc: "子どもの声量・音域・テンポに反応して、映像がリアルタイムに変化するデジタルアート。"
+          tags: ["Interactive Art", "Voice", "Kids"]
+          highlights:
+            - "マイク1本で導入可能（環境により調整）"
+            - "短時間回転でも盛り上がる"
+            - "会場の『象徴体験』になりやすい"
+          media:
+            image: "/apps/echo-garden.jpg"
+          cta:
+            label: "デモ相談"
+            href: "#contact"
+
+        - key: "hit-balloon"
+          name: "Hit Balloon"
+          catch: "割って学ぶ、英語×ゲーム。"
+          desc: "バルーンを割ると、動物や単語が出現。楽しみながら語彙に触れられる体験。"
+          tags: ["VR/AR", "Edutainment", "Vocabulary"]
+          highlights:
+            - "短時間で達成感"
+            - "展示会・学びイベント向き"
+            - "年齢に合わせた難易度調整が可能（設計次第）"
+          media:
+            image: "/apps/hit-balloon.jpg"
+          cta:
+            label: "用途を相談"
+            href: "#contact"
+
+        - key: "air-builder"
+          name: "Air Builder"
+          catch: "空中で組む、ARブロック。"
+          desc: "カメラとARで、手の動きに合わせてブロックパズルを組み立てる体験。"
+          tags: ["AR", "Hand Tracking", "Puzzle"]
+          highlights:
+            - "直感操作で盛り上がる"
+            - "行列ができる導線設計がしやすい"
+            - "ワークショップ展開も相性◎"
+          media:
+            image: "/apps/air-builder.jpg"
+          cta:
+            label: "導入相談"
+            href: "#contact"
+
+    - id: "cases"
+      type: "case_study"
+      title: "事例紹介"
+      subtitle: "Echo Garden（導入イメージ）"
+      case_items:
+        - title: "商業施設の週末イベント"
+          problem: "親子の滞在時間が伸びない／回遊が弱い"
+          solution: "入口近くに体験を配置し、声の反応で人を集める"
+          result: "体験の周囲に自然な人だかりができ、写真・動画のシェアが増加"
+          notes:
+            - "運用: スタッフ1名で誘導"
+            - "設置: スクリーン or LED + マイク"
+        - title: "自治体・教育イベント"
+          problem: "子どもが『参加者』になる体験が少ない"
+          solution: "体験設計を短くし、成功体験をすぐ返す"
+          result: "年齢差があっても参加が途切れにくい"
+          notes:
+            - "運用: 回転率重視の導線"
+            - "演出: 音量に応じた視覚効果で達成感"
+
+      gallery:
+        style: "masonry"
+        images:
+          - "/cases/eg-01.jpg"
+          - "/cases/eg-02.jpg"
+          - "/cases/eg-03.jpg"
+
+    - id: "contact"
+      type: "contact_form"
+      title: "問い合わせ"
+      subtitle: "導入相談・デモ依頼・企画段階でもOKです。"
+      fields:
+        - { name: "name", label: "お名前", type: "text", required: true }
+        - { name: "email", label: "メールアドレス", type: "email", required: true }
+        - { name: "org", label: "会社/団体名", type: "text", required: false }
+        - { name: "category", label: "相談内容", type: "select", required: true, options: ["導入相談", "デモ依頼", "共同企画", "取材/メディア", "その他"] }
+        - { name: "message", label: "内容", type: "textarea", required: true, min_length: 30 }
+      consent:
+        label: "プライバシーポリシーに同意します"
+        required: true
+        policy_href: "/privacy"
+      submit:
+        label: "送信する"
+        success_message: "送信しました。通常1〜3営業日以内にご連絡します。"
+        error_message: "送信に失敗しました。時間をおいて再度お試しください。"
+      side_info:
+        items:
+          - title: "想定導入"
+            desc: "イベント/施設/教育現場など"
+          - title: "準備目安"
+            desc: "画面（プロジェクター/LED）・マイク・PC（または運用端末）"
+          - title: "まずは"
+            desc: "目的と会場規模だけ教えてください。最適な構成を提案します。"
+
+forms:
+  # どちらかを採用（デフォルトは vercel）
+  provider: "vercel"  # "vercel" | "wordpress"
+  vercel:
+    implementation: "Next.js Route Handler"
+    endpoint: "/api/contact"
+    spam_protection:
+      kind: "hcaptcha" # "recaptcha" でも可
+      site_key_env: "HCAPTCHA_SITE_KEY"
+      secret_key_env: "HCAPTCHA_SECRET"
+    email:
+      service: "resend" # 例: Resend / SendGrid / SMTP
+      from_env: "CONTACT_FROM"
+      to_env: "CONTACT_TO"
+      subject_template: "[Echo Garden] 問い合わせ: {{category}} / {{name}}"
+    storage:
+      save_to: "none" # "none" | "notion" | "google_sheets" などに拡張可
+  wordpress:
+    implementation: "WP REST API endpoint or Contact Form 7"
+    endpoint_example: "https://example.com/wp-json/echo-garden/v1/contact"
+    notes:
+      - "フォームはWP側でメール送信、サイト側はfetchでPOST"
+      - "CORS/nonce/スパム対策（reCAPTCHA等）をWP側で実施"
+
+implementation_plan:
+  stack:
+    frontend: ["Next.js (App Router)", "Tailwind CSS", "Framer Motion"]
+    ui: ["shadcn/ui (任意)", "lucide-react (任意)"]
+    deploy: ["Vercel"]
+  pages:
+    - path: "/"
+      sections_order: ["mv", "thoughts", "apps", "cases", "contact"]
+    - path: "/privacy"
+      template: "simple_doc"
+      title: "Privacy Policy"
+      content_stub:
+        - "取得する情報"
+        - "利用目的"
+        - "第三者提供"
+        - "安全管理"
+        - "お問い合わせ窓口"
+  components:
+    - "HeaderSticky"
+    - "HeroSplit"
+    - "StorySection"
+    - "ProductCards"
+    - "CaseStudy"
+    - "Gallery"
+    - "ContactForm"
+    - "Footer"
+  animations:
+    policy: "控えめ・スクロールに合わせてフェード/スライド"
+    prefers_reduced_motion: true
+
+assets_needed:
+  required:
+    - "/hero.mp4 (or /hero.jpg)"
+    - "/apps/echo-garden.jpg"
+    - "/apps/hit-balloon.jpg"
+    - "/apps/air-builder.jpg"
+    - "/cases/eg-01.jpg"
+    - "/cases/eg-02.jpg"
+    - "/cases/eg-03.jpg"
+    - "/ogp.png"
+  optional:
+    - "ロゴ（SVG）"
+    - "ノイズテクスチャ（png）"
+    - "ファビコン一式"
