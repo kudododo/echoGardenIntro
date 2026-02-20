@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import SubPageHeader from '@/components/SubPageHeader'
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -9,7 +10,9 @@ const fadeIn = {
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen pt-32 pb-24">
+    <>
+      <SubPageHeader />
+      <div className="min-h-screen pt-32 pb-24">
       <div className="container-custom">
         <motion.div
           initial="initial"
@@ -250,6 +253,7 @@ export default function PrivacyPage() {
         </motion.div>
       </div>
     </div>
+    </>
   )
 }
 
