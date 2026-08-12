@@ -201,11 +201,11 @@ export default function PrivacyPage() {
                 <dl className="space-y-3 text-textSecondary">
                   <div className="flex flex-col sm:flex-row sm:gap-4">
                     <dt className="font-medium text-textPrimary min-w-[140px]">事業者名</dt>
-                    <dd>Echo Garden</dd>
+                    <dd>株式会社Techsperience</dd>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:gap-4">
                     <dt className="font-medium text-textPrimary min-w-[140px]">所在地</dt>
-                    <dd>東京都渋谷区恵比寿４丁目１７ カゲオカビルディング5F</dd>
+                    <dd>東京都新宿区西新宿3丁目3番13号西新宿水間ビル2F</dd>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:gap-4">
                     <dt className="font-medium text-textPrimary min-w-[140px]">メールアドレス</dt>
